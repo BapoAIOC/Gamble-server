@@ -1,15 +1,10 @@
-import os
-import json
-import asyncio
-import threading
-import functools
-
-from quart import Quart, request, websocket
+from quart import Quart, request
 
 import utils
 import slots
 import coinflip
 import dice
+import numbers
 
 app = Quart(__name__)
 
@@ -47,6 +42,15 @@ async def roll_dice(player_count: int, dice_count: int):
             "result": dice.roll_n(dice_count, player_count)
         }
     }, 200
+
+
+@app.route("/number/<int:count>/<int:lower>/<int:upper>")
+async def get_numbers(count: int, lower: int, upper: int):
+    return {
+        "payload": {
+            "result": [numbers.random_number_between(lower, upper) for _ in range(count)]
+        }
+    }
 
 
 @app.route("/log/game/<int:game_id>/<float:amount>", methods=["POST"])
