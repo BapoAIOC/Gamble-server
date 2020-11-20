@@ -4,7 +4,7 @@ import utils
 import slots
 import coinflip
 import dice
-import numbers
+import number_gen
 
 app = Quart(__name__)
 
@@ -48,7 +48,7 @@ async def roll_dice(player_count: int, dice_count: int):
 async def get_numbers(count: int, lower: int, upper: int):
     return {
         "payload": {
-            "result": [numbers.random_number_between(lower, upper) for _ in range(count)]
+            "result": [number_gen.random_number_between(lower, upper) for _ in range(count)]
         }
     }
 
